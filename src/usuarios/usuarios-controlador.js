@@ -7,7 +7,7 @@ function criaToken(usuario) {
     id: usuario.id,
   };
 
-  const token = jwt.sign(payload, "secret");
+  const token = jwt.sign(payload, process.env.SECRET_JWT);
   return token;
 }
 
