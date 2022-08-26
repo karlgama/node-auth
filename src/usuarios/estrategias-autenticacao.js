@@ -3,6 +3,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const Usuario = require("./usuarios-modelo");
 const { InvalidArgumentError } = require("../erros");
 const bcrypt = require("bcrypt");
+const BearerStrategy = require("passport-http-bearer").Strategy;
+const jwt = require("jsonwebtoken");
 
 passport.use(
   new LocalStrategy(
@@ -23,4 +25,16 @@ passport.use(
       }
     }
   )
+);
+
+passport.use(
+  new BearerStrategy(async (token, done) => {
+    try {
+      const payload = jwt.verify(token, process.env.SECRET_JWT);
+      const usuario = await Usuario.buscaPorId(payload.id);
+      done(null, usuario);
+    } catch (err) {
+      done(err);
+    }
+  })
 );
