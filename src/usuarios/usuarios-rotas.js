@@ -1,10 +1,27 @@
-const usuariosControlador = require('./usuarios-controlador');
+const usuariosControlador = require("./usuarios-controlador");
+const { Router } = require("express");
+const passport = require("passport");
 
-module.exports = app => {
+// const router = Router();
+
+// router.get("/usuarios", usuariosControlador.lista);
+// router.post("/usuarios", usuariosControlador.adiciona);
+// router.delete("/usuarios/:id", usuariosControlador.deleta);
+// router.post("usuarios/login", usuariosControlador.login);
+module.exports = (app) => {
   app
-    .route('/usuario')
+    .route("/usuario/login")
+    .post(
+      passport.authenticate("local", { session: false }),
+      usuariosControlador.login
+    );
+
+  app
+    .route("/usuario")
     .post(usuariosControlador.adiciona)
     .get(usuariosControlador.lista);
 
-  app.route('/usuario/:id').delete(usuariosControlador.deleta);
+  app.route("/usuario/:id").delete(usuariosControlador.deleta);
 };
+
+// module.exports = router;

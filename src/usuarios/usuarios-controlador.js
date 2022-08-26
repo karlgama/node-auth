@@ -1,5 +1,5 @@
-const Usuario = require('./usuarios-modelo');
-const { InvalidArgumentError, InternalServerError } = require('../erros');
+const Usuario = require("./usuarios-modelo");
+const { InvalidArgumentError, InternalServerError } = require("../erros");
 
 module.exports = {
   adiciona: async (req, res) => {
@@ -8,10 +8,10 @@ module.exports = {
     try {
       const usuario = new Usuario({
         nome,
-        email
+        email,
       });
 
-      await usuario.adicionaSenha(senha)
+      await usuario.adicionaSenha(senha);
       await usuario.adiciona();
 
       res.status(201).json();
@@ -24,6 +24,10 @@ module.exports = {
         res.status(500).json({ erro: erro.message });
       }
     }
+  },
+
+  login: (req, res) => {
+    res.status(204).send();
   },
 
   lista: async (req, res) => {
@@ -39,5 +43,5 @@ module.exports = {
     } catch (erro) {
       res.status(500).json({ erro: erro });
     }
-  }
+  },
 };
