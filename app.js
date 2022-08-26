@@ -1,7 +1,10 @@
-const express = require("express");
-const app = express();
-const { estrategiasAutenticacao } = require("./src/usuarios");
+// const express = require("express");
+// const app = express();
+// const routes = require('./rotas')
 
-app.use(express.json());
+// const { estrategiasAutenticacao } = require("./src/usuarios");
 
-module.exports = app;
+// app.use(express.json());
+// // routes(app)
+
+// module.exports = app;
