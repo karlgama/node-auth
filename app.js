@@ -1,10 +1,8 @@
-// const express = require("express");
-// const app = express();
-// const routes = require('./rotas')
+const express = require("express");
+const app = express();
+const routes = require("./src/routes");
 
-// const { estrategiasAutenticacao } = require("./src/usuarios");
+app.use(express.json());
+routes(app);
 
-// app.use(express.json());
-// // routes(app)
-
-// module.exports = app;
+module.exports = app;
