@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const PostController = require("../controllers/PostController");
-const passport = require("passport");
+const middlewareAutenticacao = require('../middlewares/middlewares-autenticacao')
 
 const router = Router();
 
 router.get("/post", PostController.lista);
 router.post(
   "/post",
-  passport.authenticate("bearer", { session: false }),
+  middlewareAutenticacao.bearer,
   PostController.adiciona
 );
 
