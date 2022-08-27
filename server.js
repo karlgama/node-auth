@@ -11,7 +11,7 @@
 
 const express = require('express')
 const routes = require('./src/routes')
-
+const { estrategiasAutenticacao } = require("./src/usuarios");
 const app = express();
 
 app.use(express.json());

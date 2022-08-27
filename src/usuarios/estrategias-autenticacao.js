@@ -30,7 +30,7 @@ passport.use(
 passport.use(
   new BearerStrategy(async (token, done) => {
     try {
-      const payload = jwt.verify(token, process.env.SECRET_JWT);
+      const payload = jwt.verify(token, `${process.env.SECRET_JWT}`);
       const usuario = await Usuario.buscaPorId(payload.id);
       done(null, usuario);
     } catch (err) {
