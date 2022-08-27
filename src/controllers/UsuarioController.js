@@ -4,12 +4,13 @@ const jwt = require("jsonwebtoken");
 
 class UsuarioController {
   static async criaToken(usuario) {
-
     const payload = {
       id: usuario.id,
     };
 
-    const token = jwt.sign(payload,`${process.env.SECRET_JWT}`);
+    const token = jwt.sign(payload, `${process.env.SECRET_JWT}`, {
+      expuresIn: "15m",
+    });
     return token;
   }
 

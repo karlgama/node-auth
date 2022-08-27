@@ -1,5 +1,6 @@
 const { estrategiasAutenticacao } = require("./src/usuarios");
 const app = require("./app");
+require('./redis/blacklist')
 
 const port = 3000;
 
