@@ -5,6 +5,7 @@ const { InvalidArgumentError } = require("../erros");
 const bcrypt = require("bcrypt");
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const jwt = require("jsonwebtoken");
+const blacklist = require("../../redis/manipula-blacklist");
 
 passport.use(
   new LocalStrategy(
@@ -26,10 +27,15 @@ passport.use(
     }
   )
 );
-
+async function verificaTokenNaBlackList(token) {
+  const tokenNaBlackList = await blacklist.contemToken(token);
+  if (tokenNaBlackList)
+    throw new jwt.JsonWebTokenError("token inválido");
+}
 passport.use(
   new BearerStrategy(async (token, done) => {
     try {
+      await verificaTokenNaBlackList(token)
       const payload = jwt.verify(token, `${process.env.SECRET_JWT}`);
       const usuario = await Usuario.buscaPorId(payload.id);
       done(null, usuario, { token: token });
