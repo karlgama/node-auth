@@ -1,6 +1,7 @@
 const { estrategiasAutenticacao } = require("./src/usuarios");
 const app = require("./app");
 require('./redis/blacklist')
+require('dotenv').config()
 
 const port = 3000;
 
