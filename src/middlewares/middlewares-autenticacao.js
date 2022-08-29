@@ -5,7 +5,7 @@ module.exports = {
     passport.authenticate(
       "local",
       { session: false },
-      (erro, usuario, info) => {        
+      (erro, usuario, info) => {
         if (erro && erro.name === "InvalidArgumentError")
           return res.status(401).json({ erro: erro.message });
 
@@ -23,19 +23,13 @@ module.exports = {
       "bearer",
       { session: false },
       (erro, usuario, info) => {
-        console.debug("usuario:",req.headers)
         if (erro && erro.name === "JsonWebTokenError")
           return res.status(401).json({ erro: erro.message });
-
-        if (erro && erro.name === "TokenExpieredError")
-          return res.status(401).json({ erro: erro.message, expiradoEm: erro.expiredAt });
-
         if (erro) return res.status(500).json({ erro: erro.message });
-        
-        if (!usuario) return res.status(401).json({ erro: erro });
-        
-        req.token=info.token;
+
+        if (!usuario) return res.status(401).json();
         req.user = usuario;
+        return next();
       }
     )(req, res, next);
   },

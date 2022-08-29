@@ -63,6 +63,9 @@ class Usuario {
     validacoes.campoTamanhoMaximo(senha, "senha", 64);
     this.senha = await Usuario.gerarHash(senha);
   }
+  static compararSenhas(senhaBody, senhaDB){
+    return bcrypt.compare(senhaBody,senhaDB)
+  }
 }
 
 module.exports = Usuario;

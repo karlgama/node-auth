@@ -8,7 +8,6 @@ class UsuarioController {
     const payload = {
       id: usuario.id,
     };
-
     const token = jwt.sign(payload, `${process.env.SECRET_JWT}`, {
       expiresIn: "15m",
     });
@@ -40,11 +39,15 @@ class UsuarioController {
   }
 
   static async login(req, res) {
-    const user = req.body;
+    const {email,senha} = req.body;
+    const user = await  Usuario.buscaPorEmail(email);
+    if(!Usuario.compararSenhas(senha,user.senha))
+      throw new InvalidArgumentError('usuário ou senha incorretos')
     const token = await UsuarioController.criaToken(user);
     res.set("Authorization", token);
     res.status(204).send();
   }
+
 
   static async logout(req, res) {
     try {
