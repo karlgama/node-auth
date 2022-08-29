@@ -1,6 +1,7 @@
 const Usuario = require("../usuarios/usuarios-modelo");
 const { InvalidArgumentError, InternalServerError } = require("../erros");
 const jwt = require("jsonwebtoken");
+const blacklist = require("../../redis/manipula-blacklist");
 
 class UsuarioController {
   static async criaToken(usuario) {
@@ -9,7 +10,7 @@ class UsuarioController {
     };
 
     const token = jwt.sign(payload, `${process.env.SECRET_JWT}`, {
-      expuresIn: "15m",
+      expiresIn: "15m",
     });
     return token;
   }
@@ -43,6 +44,16 @@ class UsuarioController {
     const token = await UsuarioController.criaToken(user);
     res.set("Authorization", token);
     res.status(204).send();
+  }
+
+  static async logout(req, res) {
+    try {
+      const token = req.token;
+      await blacklist.adiciona(token);
+      res.status(204).send({ message: "logout realizado com sucesso" });
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
   }
 
   static async lista(req, res) {

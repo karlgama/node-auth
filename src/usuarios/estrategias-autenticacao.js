@@ -32,7 +32,7 @@ passport.use(
     try {
       const payload = jwt.verify(token, `${process.env.SECRET_JWT}`);
       const usuario = await Usuario.buscaPorId(payload.id);
-      done(null, usuario);
+      done(null, usuario, { token: token });
     } catch (err) {
       done(err);
     }

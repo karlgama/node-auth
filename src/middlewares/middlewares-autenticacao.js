@@ -33,6 +33,8 @@ module.exports = {
         if (erro) return res.status(500).json({ erro: erro.message });
 
         if (!usuario) return res.status(401).json();
+        
+        req.token=info.token;
         req.user = usuario;
       }
     )(req, res, next);

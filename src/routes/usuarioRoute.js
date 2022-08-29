@@ -15,5 +15,10 @@ router.post(
   middlewareAutenticacao.local,
   UsuarioController.login
 );
+router.get(
+  "/usuarios/logout",
+  middlewareAutenticacao.bearer,
+  UsuarioController.logout
+);
 
 module.exports = router;
